@@ -9,6 +9,12 @@ const router = express.Router();
 
 
 router.get('/signup', (req, res, next) => {
+
+  if(req.user) { //redirect to home if you're already logged in
+    res.redirect('/');
+    return;
+  }
+
     res.render('auth-views/signup-form.ejs');
 });
 
@@ -68,11 +74,18 @@ router.post('/process-signup', (req, res, next) => {
 
 
 router.get('/login', (req, res, next) => {
+
+    if(req.user) {
+      res.redirect('/');
+      return;
+    }
     // check for feedback messages from the log in process
     res.locals.flashError = req.flash('error');
 
     // check for feedback messages from the log out process
     res.locals.logoutFeedback = req.flash('logoutSuccess');
+
+    res.locals.securityFeedback = req.flash('securityError');
 
     res.render('auth-views/login-form.ejs');
 });
@@ -113,5 +126,21 @@ router.get('/auth/facebook/callback',
   })
 );
 
+router.get('/auth/google',
+  passport.authenticate('google', {
+      scope: [
+        'https://www.googleapis.com/auth/plus.login',
+        'https://www.googleapis.com/auth/plus.profile.emails.read'
+      ]
+  })
+);
+
+router.get('/auth/google/callback',
+  passport.authenticate('google', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true
+  })
+);
 
 module.exports = router;

@@ -1,0 +1,24 @@
+<h2> Edit a Room </h2>
+
+<form method="post" action="/rooms/<%= roomInfo._id %>" enctype="multipart/form-data">
+  <label for="room-name-input"> Room Name </label>
+  <input id="room-name-input" name="roomName" type="text"
+    value="<%= roomInfo.name %>"
+    placeholder="Amazing View of a Fallen Tree">
+    <br>
+
+    <p> Current Photo: </p>
+    <img src="<%= roomInfo.photoUrl %>" >
+    <br>
+
+  <label for="photo-input"> Upload a New Photo (optional) </label>
+  <input id="photo-input" name="roomPhoto" type="file">
+    <br>
+
+  <label for="desc-input"> Description </label>
+  <textarea id="desc-input" name="roomDesc" placeholder="Beautiful">
+    <%= roomInfo.desc %></textarea>
+  <br>
+
+  <button> Save This Room </button>
+</form>

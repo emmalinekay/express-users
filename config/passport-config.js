@@ -111,9 +111,9 @@ passport.use(
     // 1st arg -> settings object
     {
         // clientID = App ID
-        clientID: 'facebook app id',
+        clientID: '185478141483846',
         // clientSecret = App Secret
-        clientSecret: 'facebook app secret',
+        clientSecret: '915ea8258ce473dd4c536bd8ba7eccc0',
         callbackURL: '/auth/facebook/callback'
     },
 
@@ -158,4 +158,46 @@ passport.use(
         ); // close UserModel.findOne( ...
     }
   ) // close new FbStrategy( ...
+);
+
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+passport.use(
+  new GoogleStrategy (
+    {
+        clientID: '401199260144-3pda82kkp3u0k81eoe5cbfrqs5j7b7en.apps.googleusercontent.com',
+        clientSecret: '9B46macbE2_0HOVM1kC1kO6c',
+        callbackURL: '/auth/google/callback'
+    },
+    (accessToken, refreshToken, profile, done) => {
+        UserModel.findOne(
+          { googleID: profile.id },
+
+          (err, userFromDb) => {
+            if(err) {
+              done(err);
+              return;
+            }
+            //if there's an account, log them in
+            if(userFromDb) {
+                done(null, userFromDb);
+                return;
+            }
+            //otherwise create an account for them
+            const theUser = new UserModel({
+              googleID: profile.id,
+              email: profile.emails[0].value
+            });
+
+            theUser.save((err) => {
+              if(err) {
+                done(err);
+                return;
+              }
+
+              done(null, theUser);
+            });
+          }
+        );
+    }
+  )
 );

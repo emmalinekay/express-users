@@ -1,5 +1,8 @@
 <h2> Log In </h2>
 
+<% if (securityFeedback.length > 0) { %>
+  <p class="error-message"> <%= securityFeedback %> </p>
+<% } %>
 
 <% if (logoutFeedback.length > 0) { %>
   <p class="success-message"> <%= logoutFeedback %> </p>
@@ -29,3 +32,9 @@
 <a href="/auth/facebook">
   Log In with Facebook
 </a>
+<br>
+
+<a href="/auth/google">
+  Log In with Google
+</a>
+<br>

@@ -18,7 +18,14 @@ const userSchema = new Schema(
     facebookID: { type: String },
 
     // for Google login users
-    googleID: { type: String }
+    googleID: { type: String },
+
+    // determines whether you are admin or not
+    role: {
+      type: String,
+      enum: [ 'normal', 'admin'],
+      default: 'normal'
+    }
   },
 
   // optional settings object for this schema

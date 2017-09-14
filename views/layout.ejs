@@ -14,10 +14,26 @@
         <br>
 
         <% if (currentUser) { %>
+          <a href="/my-rooms">My Rooms</a>
+          <br>
+
+          <a href="/rooms/new">Add a Room</a>
+          <br>
+
           <a href="/logout"> Log Out </a>
           <br>
 
           <h2> <%= currentUser.email %> </h2>
+          <% if (currentUser.role === 'admin') { %>
+            <div>
+              <h2> Admin Zone </h2>
+
+              <a href="/admin/rooms"> All Rooms </a> <br>
+              <a href="/admin/users"> All Users</a> <br>
+
+            </div>
+          <% } %>
+
         <% } else { %>
           <a href="/signup"> Sign Up </a>
           <br>
