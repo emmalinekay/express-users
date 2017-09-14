@@ -10,12 +10,14 @@ const session      = require('express-session');
 const passport     = require('passport');
 const flash        = require('connect-flash');
 
+require('dotenv').config(); //load environment variables/put this at top.
+
 // Run all the setup code inside "passport-config.js"
 // (that file doesn't export anything)
 require('./config/passport-config.js');
 
 
-mongoose.connect('mongodb://localhost/express-users');
+mongoose.connect(process.env.MONGODB_URI); //defined in .env file
 
 const app = express();
 
